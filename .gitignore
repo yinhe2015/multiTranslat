@@ -1,0 +1,5 @@
+logs/
+__pycache__/
+models/*
+!models/model.json.example
+.DS_Store
