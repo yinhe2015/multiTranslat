@@ -117,7 +117,8 @@ def multi_translat(
         for chunk in translate_text(
             content=now_text,
             client=client,
-            openai_args=model['args'] if hasattr(model, 'args') else {},
+            
+            openai_args=model['args'],
             source_language=now_language,
             target_language=language,
         ):
