@@ -34,7 +34,15 @@ def random_select_languages(count: int=None, exclude: list=[]) -> list[str]:
     real_count = len(select_range)
 
     if count and count > real_count:
-        raise IndexError(f'count {count} must be less than {real_count}')
+        out = []
+        left = count
+        while left >= real_count:
+            select_range.shuffle()
+            out.extend(select_range)
+            left -= real_count
+        out.extend(random.sample(select_range, left))
+        random.shuffle(out)
+        return out, count
     elif count is None or count == real_count:
         random.shuffle(select_range)
         return select_range, real_count
@@ -138,7 +146,7 @@ def main():
     parser.add_argument('source_text', type=str, help='source text')
     parser.add_argument('-s', '--source_language', type=str, default='simple_chinese', help='source language')
     parser.add_argument('-t', '--target_language', type=str, default='simple_chinese', help='target language')
-    parser.add_argument('-c', '--count', type=int, default=None, help='count of times to translate')
+    parser.add_argument('-c', '--count', type=int, default=10, help='count of times to translate')
     parser.add_argument('-m', '--model', type=str, default='model', help='model\'s name in models/')
 
     args = parser.parse_args()
